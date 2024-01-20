@@ -17,11 +17,14 @@ dependencyResolutionManagement {
             version("retrofit", "2.9.0")
             library("retrofit-main", "com.squareup.retrofit2", "retrofit").versionRef("retrofit")
             library("retrofit-moshi", "com.squareup.retrofit2", "converter-moshi").versionRef("retrofit")
+
+            library("junit", "junit:junit:4.13.2")
+            library("mockk", "io.mockk:mockk:1.13.9")
         }
     }
 }
 
 rootProject.name = "Petfinder Demo"
-include(":app")
+include(":main")
 include(":common")
 include(":auth")

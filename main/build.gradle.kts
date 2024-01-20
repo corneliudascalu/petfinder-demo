@@ -8,7 +8,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.corneliudascalu.petfinderdemo"
+        applicationId = "com.riverpath.petfinderdemo"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
