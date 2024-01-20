@@ -1,6 +1,5 @@
-package com.corneliudascalu.common
+package com.riverpath.petfinderdemo.common
 
-import com.corneliudascalu.common.Result
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test

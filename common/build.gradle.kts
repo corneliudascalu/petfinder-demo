@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.corneliudascalu.common"
+    namespace = "com.riverpath.petfinderdemo.common"
     compileSdk = 34
 
     defaultConfig {

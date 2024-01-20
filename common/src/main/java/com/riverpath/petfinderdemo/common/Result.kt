@@ -1,4 +1,4 @@
-package com.corneliudascalu.common
+package com.riverpath.petfinderdemo.common
 
 /**
  * A generic class that holds a value with its loading status.
