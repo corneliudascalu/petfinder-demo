@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "Petfinder Demo"
 include(":app")
 include(":common")
+include(":auth")
