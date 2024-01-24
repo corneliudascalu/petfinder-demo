@@ -30,6 +30,7 @@ dependencyResolutionManagement {
             library("mockk", "io.mockk:mockk:1.13.9")
             library("androidx-junit", "androidx.test.ext:junit:1.1.5")
             library("androidx-espresso", "androidx.test.espresso:espresso-core:3.5.1")
+            library("androidx-annotation", "androidx.annotation:annotation:1.6.0")
         }
     }
 }
@@ -38,3 +39,4 @@ rootProject.name = "Petfinder Demo"
 include(":main")
 include(":common")
 include(":auth")
+include(":petsearch")
