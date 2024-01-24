@@ -14,10 +14,13 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.DateRange
+import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
@@ -93,14 +96,14 @@ fun PetfinderUI(modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    modifier = Modifier
-                        .align(Alignment.Start)
-                        .fillMaxWidth(),
-                    text = "test",
-                    maxLines = 3,
-                    style = MaterialTheme.typography.bodyMedium,
-                )
+                ListItem(headlineContent = { Text(text = "test") },
+                    leadingContent = {
+                        Icon(
+                            imageVector = Icons.Rounded.Done,
+                            contentDescription = ""
+                        )
+                    },
+                    supportingContent = { Text(text = "description") })
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = { /*TODO*/ }) {
                     Text(text = "Authenticate")

@@ -1,5 +1,3 @@
-import org.gradle.accessors.dm.LibrariesForLibs.PluginAccessors
-
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -16,6 +14,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -31,9 +30,12 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.retrofit.main)
     implementation(libs.retrofit.moshi)
+    implementation(libs.okhttp.logging)
     testImplementation(libs.truth)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso)
+    // Needed for DateTime
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
