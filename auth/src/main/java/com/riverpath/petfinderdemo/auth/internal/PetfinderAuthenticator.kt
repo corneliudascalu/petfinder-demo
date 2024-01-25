@@ -1,5 +1,6 @@
 package com.riverpath.petfinderdemo.auth.internal
 
+import android.util.Log
 import com.riverpath.petfinderdemo.auth.internal.AccessTokenProvider
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
@@ -12,7 +13,12 @@ internal class PetfinderAuthenticator(
     private val tokenProvider: AccessTokenProvider,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-        val token = runBlocking { tokenProvider.getToken() }
+        try {
+            val token = runBlocking { tokenProvider.getToken() }
+        } catch (e: Exception) {
+            Log.e("Authenticator", "${e.message}")
+            return null
+        }
         return null
     }
 }
@@ -21,5 +27,4 @@ internal class AuthInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         TODO("Not yet implemented")
     }
-
 }
