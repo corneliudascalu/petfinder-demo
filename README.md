@@ -18,6 +18,7 @@ In order for the whole thing to work, we need to somehow include the feature mod
 application. That job is done by the `glue` module, which is an empty module that includes all 
 feature modules.
 
+```
              /----    [auth]   <---\
             /                       \
 [features] <----    [petsearch]  <----  [glue] <--- [main]
@@ -26,7 +27,7 @@ feature modules.
                     / /
 [common] <---------/ /
 [pets]  <-----------/
-
+```
 Advantages of this approach:
  - keeps features as independent as possible
  - avoids accidental cross-feature dependencies
