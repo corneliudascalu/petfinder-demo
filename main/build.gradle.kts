@@ -54,6 +54,8 @@ android {
 dependencies {
 
     implementation(project(":features"))
+    // TODO Is this really needed or we can do some domain mapping?
+    implementation(project(":pets"))
     implementation(project(":glue"))
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

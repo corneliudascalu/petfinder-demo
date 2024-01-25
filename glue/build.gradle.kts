@@ -34,7 +34,6 @@ android {
 
 dependencies {
     implementation(project(":auth"))
-    implementation(project(":pets"))
     implementation(project(":petsearch"))
     implementation(project(":petdetails"))
 }

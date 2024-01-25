@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -28,6 +29,7 @@ import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,8 +41,11 @@ import com.riverpath.petfinder.features.ServiceLocator
 import com.riverpath.petfinderdemo.ui.ui.theme.PetfinderDemoTheme
 
 class MainActivity : ComponentActivity() {
+
+    val viewModel: MainViewModel by viewModels<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             PetfinderDemoTheme {
                 // A surface container using the 'background' color from the theme
@@ -48,7 +53,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PetfinderUI()
+                    PetfinderUI(viewModel = viewModel)
                 }
             }
         }
@@ -57,18 +62,15 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PetfinderUI(modifier: Modifier = Modifier) {
-    val query = remember {
-        mutableStateOf("")
-    }
+fun PetfinderUI(modifier: Modifier = Modifier, viewModel: MainViewModel) {
+    val uiState = viewModel.uiState.collectAsState()
     Scaffold(
         modifier = modifier,
-    )
-    {
+    ) {
         SearchBar(
             placeholder = { Text(text = "Find a pet") },
-            query = query.value,
-            onQueryChange = { q -> query.value = q },
+            query = uiState.value.searchTerm ?: "",
+            onQueryChange = { q -> viewModel.search(q) },
             onSearch = {},
             active = true,
             onActiveChange = {},
@@ -107,11 +109,8 @@ fun PetfinderUI(modifier: Modifier = Modifier) {
                     supportingContent = { Text(text = "description") })
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(onClick = {
-                    val httpClient = ServiceLocator.httpClientProvider.httpClient
 
-                    Log.d("Test", ServiceLocator.httpClientProvider.javaClass.name)
-                    Log.d("Test", ServiceLocator.detailsTest)
-
+                    viewModel.testAuth()
                 }) {
                     Text(text = "Authenticate")
                 }
@@ -124,6 +123,6 @@ fun PetfinderUI(modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     PetfinderDemoTheme {
-        PetfinderUI()
+        PetfinderUI(viewModel = MainViewModel())
     }
 }
