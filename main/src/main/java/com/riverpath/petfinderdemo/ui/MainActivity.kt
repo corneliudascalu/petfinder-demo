@@ -1,6 +1,7 @@
 package com.riverpath.petfinderdemo.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -14,7 +15,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material.icons.rounded.DateRange
 import androidx.compose.material.icons.rounded.Done
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Button
@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.riverpath.petfinder.features.ServiceLocator
 import com.riverpath.petfinderdemo.ui.ui.theme.PetfinderDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -105,13 +106,18 @@ fun PetfinderUI(modifier: Modifier = Modifier) {
                     },
                     supportingContent = { Text(text = "description") })
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = {
+                    val httpClient = ServiceLocator.httpClientProvider.httpClient
+
+                    Log.d("Test", ServiceLocator.httpClientProvider.javaClass.name)
+                    Log.d("Test", ServiceLocator.detailsTest)
+
+                }) {
                     Text(text = "Authenticate")
                 }
             }
         }
     }
-
 }
 
 @Preview(showBackground = true)

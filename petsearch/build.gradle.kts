@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.dynamic-feature")
+    id("com.android.library")
     id("org.jetbrains.kotlin.android")
 }
 android {
@@ -30,7 +30,8 @@ android {
 }
 
 dependencies {
-    implementation(project(":main"))
+    implementation(project(":pets"))
+    implementation(project(":features"))
     implementation(libs.androidx.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

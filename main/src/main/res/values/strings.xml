@@ -2,4 +2,5 @@
     <string name="app_name">Petfinder Demo</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_petsearch">Pet Search</string>
+    <string name="title_petdetails">Pet Details</string>
 </resources>

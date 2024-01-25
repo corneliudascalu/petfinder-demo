@@ -6,7 +6,30 @@
 ### Run the unit tests with
 `gradle test`
 
-### Module Architecture
-Have a top module defining essential entities and API contracts. All modules depend on it. 
-Feature modules also depend on :main, which provides the service locator infrastructure. 
-Alternatively, we have a :hub module which handles the service locator, and :main depends on it. 
+### Feature Module Architecture
+This project organizes its feature modules independently to avoid accidentally 
+creating dependencies between modules and also reduce build times.
+
+The `:features` module defines all the features supported by the application, by defining an 
+interface for each feature. All feature modules depend on the `:features` module, implement 
+the feature interface and inject an instance of the feature implementation in the `ServiceLocator`.
+
+In order for the whole thing to work, we need to somehow include the feature modules in the 
+application. That job is done by the `glue` module, which is an empty module that includes all 
+feature modules.
+
+             /----    [auth]   <---\
+            /                       \
+[features] <----    [petsearch]  <----  [glue] <--- [main]
+            \                       / 
+             \---- [petdetails] <--/
+                    / /
+[common] <---------/ /
+[pets]  <-----------/
+
+Advantages of this approach:
+ - keeps features as independent as possible
+ - avoids accidental cross-feature dependencies
+ - common logic on which multiple features are depending is defined in a separate module
+ - requires a formal definition of a feature, by requiring all interaction with said feature to 
+   be done through a well defined public interface

@@ -21,7 +21,15 @@ dependencyResolutionManagement {
                 "com.squareup.retrofit2",
                 "converter-moshi"
             ).versionRef("retrofit")
-            library("okhttp-logging","com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+            version("okhttp", "4.12.0")
+            library("okhttp-client", "com.squareup.okhttp3", "okhttp").versionRef("okhttp")
+            library(
+                "okhttp-logging",
+                "com.squareup.okhttp3",
+                "logging-interceptor"
+            ).versionRef("okhttp")
+
             library("androidx-core", "androidx.core:core-ktx:1.12.0")
             library("androidx-appcompat", "androidx.appcompat:appcompat:1.6.1")
             library("google-material", "com.google.android.material:material:1.11.0")
@@ -40,3 +48,7 @@ include(":main")
 include(":common")
 include(":auth")
 include(":petsearch")
+include(":pets")
+include(":features")
+include(":petdetails")
+include(":glue")

@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 internal class AccessTokenProvider(
     // TODO Provide API base URL from constants?
     private val api: AuthService = Retrofit.Builder()
-        .baseUrl("https://api.petfinder.com/v2")
+        .baseUrl("https://api.petfinder.com/v2/")
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
         .create(AuthService::class.java)
