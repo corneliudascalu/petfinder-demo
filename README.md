@@ -22,9 +22,9 @@ feature modules.
              /----    [auth]   <---\
             /                       \
 [features] <----    [petsearch]  <----  [glue] <--- [main]
-            \                       / 
-             \---- [petdetails] <--/
-                    / /
+   |         \                       / 
+   |          \---- [petdetails] <--/
+   ↓                / /
 [common] <---------/ /
 [pets]  <-----------/
 ```
