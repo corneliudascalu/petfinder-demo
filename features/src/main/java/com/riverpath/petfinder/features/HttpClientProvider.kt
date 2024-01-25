@@ -6,7 +6,7 @@ interface HttpClientProvider {
     val httpClient: OkHttpClient
 }
 
-internal val EMPTY = object : HttpClientProvider {
+internal val EmptyHttpClientProvider = object : HttpClientProvider {
     override val httpClient: OkHttpClient
         get() = OkHttpClient()
 }

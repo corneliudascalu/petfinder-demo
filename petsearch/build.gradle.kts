@@ -32,9 +32,10 @@ android {
 dependencies {
     implementation(project(":pets"))
     implementation(project(":features"))
+    implementation(project(":common"))
     implementation(libs.androidx.core)
+    implementation(libs.retrofit.main)
+    implementation(libs.retrofit.moshi)
+
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso)
-    androidTestImplementation(libs.androidx.annotation)
 }

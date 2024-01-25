@@ -34,6 +34,7 @@ android {
 
 dependencies {
 
+    implementation(project(":pets"))
     implementation(libs.okhttp.client)
     implementation(libs.androidx.core)
     testImplementation(libs.junit)
