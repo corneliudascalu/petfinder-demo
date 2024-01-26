@@ -4,9 +4,9 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 internal interface PetSearchAPI {
-    @GET("animals")
+    @GET("/v2/animals")
     suspend fun getAllAnimals(): AnimalsDto
 
-    @GET("animals")
+    @GET("/v2/animals")
     suspend fun getAnimalsByType(@Query("type") type: String): AnimalsDto
 }

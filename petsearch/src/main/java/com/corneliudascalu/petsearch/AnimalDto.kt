@@ -10,12 +10,12 @@ internal data class AnimalDto(
     val age: String,
     val gender: String,
     val size: String,
-    val coat: String,
+    val coat: String?,
     val name: String,
-    val description: String,
-    val photos: Map<String, String>,
+    val description: String? = "",
+    val photos: List<Map<String, String>> = emptyList(),
     val status: String,
-    val distance: Double,
+    val distance: Double?,
 )
 
 internal data class Breed(

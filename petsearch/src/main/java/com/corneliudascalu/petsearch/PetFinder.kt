@@ -11,17 +11,17 @@ internal class PetFinder(private val api: PetSearchAPI) : PetSearch {
                 Animal(
                     id = it.id,
                     name = it.name,
-                    description = it.description,
+                    description = it.description ?: "No Description",
                     type = it.type,
                     color = it.colors["primary"] ?: "transparent",
                     age = it.age,
                     gender = it.gender,
                     breed = it.breeds.primary,
                     size = it.size,
-                    thumbnailURL = it.photos["small"] ?: "",
-                    portraitURL = it.photos["full"] ?: "",
+                    thumbnailURL = it.photos.firstOrNull()?.get("small") ?: "",
+                    portraitURL = it.photos.firstOrNull()?.get("full") ?: "",
                     status = it.status,
-                    distance = it.distance.toInt()
+                    distance = it.distance?.toInt()
                 )
             } ?: emptyList())
         } catch (e: HttpException) {
