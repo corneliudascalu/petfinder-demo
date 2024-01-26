@@ -11,7 +11,7 @@ internal class PetFinder(private val api: PetSearchAPI) : PetSearch {
                 api.getAllAnimals().animals?.map(animalMapper) ?: emptyList()
             )
         } catch (e: HttpException) {
-            Result.failure(PetFindException.ServerException(e.code(), e))
+            Result.failure(PetFindException.ServerException(e.code(), e.message(), e))
         }
     }
 
@@ -21,7 +21,10 @@ internal class PetFinder(private val api: PetSearchAPI) : PetSearch {
                 api.getAnimalsByType(type).animals?.map(animalMapper) ?: emptyList()
             )
         } catch (e: HttpException) {
-            Result.failure(PetFindException.ServerException(e.code(), e))
+
+            val errorBody = e.response()?.errorBody()?.string()
+            // TODO Parse errorBody json into an intelligible error type
+            Result.failure(PetFindException.ServerException(e.code(), errorBody ?: e.message(), e))
         }
     }
 
@@ -65,6 +68,9 @@ sealed class PetFindException(
     override val message: String? = null,
     override val cause: Throwable? = null,
 ) : Exception() {
-    class ServerException(val code: Int, e: Exception? = null) :
-        PetFindException(message = e?.message, cause = e)
+    class ServerException(
+        val code: Int,
+        override val message: String? = null,
+        override val cause: Throwable? = null
+    ) : PetFindException()
 }
