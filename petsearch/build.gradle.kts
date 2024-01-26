@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.retrofit.main)
     implementation(libs.retrofit.moshi)
+    implementation(libs.moshi)
 
     testImplementation(libs.junit)
 }

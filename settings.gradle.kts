@@ -22,6 +22,8 @@ dependencyResolutionManagement {
                 "converter-moshi"
             ).versionRef("retrofit")
 
+            library("moshi","com.squareup.moshi:moshi-kotlin:1.15.0")
+
             version("okhttp", "4.12.0")
             library("okhttp-client", "com.squareup.okhttp3", "okhttp").versionRef("okhttp")
             library(
