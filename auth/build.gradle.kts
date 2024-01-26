@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.klaxit.hiddensecrets").version("0.2.1")
 }
 
 android {
@@ -21,6 +22,12 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    // Enable NDK build
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
+    }
 }
 
 dependencies {
@@ -32,6 +39,7 @@ dependencies {
     implementation(libs.retrofit.main)
     implementation(libs.retrofit.moshi)
     implementation(libs.okhttp.logging)
+    implementation(libs.timber)
     testImplementation(libs.truth)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
