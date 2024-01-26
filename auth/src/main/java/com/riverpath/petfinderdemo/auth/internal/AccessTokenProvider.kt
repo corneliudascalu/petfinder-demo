@@ -13,6 +13,10 @@ import timber.log.Timber
 import java.io.IOException
 import java.time.LocalDateTime
 
+/**
+ * Takes care of requesting an authentication token, storing it (in memory) and requesting a new one
+ * when it expires.
+ */
 internal class AccessTokenProvider(
     private val api: AuthService = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
@@ -32,6 +36,10 @@ internal class AccessTokenProvider(
 ) {
     // Cached in memory, but it could just as well be saved in Shared Preferences
     private var cachedToken: FleetingToken? = null
+
+    /**
+     * Get the cached token or a new one if the cached token is expired
+     */
     suspend fun getToken(): String {
         cachedToken?.also {
             return if (it.isExpired) {
@@ -45,16 +53,12 @@ internal class AccessTokenProvider(
 
     private suspend fun refreshToken(): String {
         try {
-            val secrets = Secrets()
-            // Ideally we should get this from PackageManager
-            val packageName = "com.riverpath.petfinderdemo.auth"
-            val clientId = secrets.getclient_id(packageName)
-            val clientSecret = secrets.getclient_secret(packageName)
-            Timber.d("API credentials: clientID=${clientId}, clientSecret=$clientSecret")
+            val (clientId, clientSecret) = retrieveSecrets()
 
             val token = api.getToken(clientID = clientId, clientSecret = clientSecret)
             Timber.d("Received new token $token")
 
+            // save the token in memory with an expiration date
             cachedToken = FleetingToken(
                 token = token.accessToken,
                 expirationDate = LocalDateTime.now().plusSeconds(token.expiresIn)
@@ -62,6 +66,8 @@ internal class AccessTokenProvider(
             return token.accessToken
         } catch (e: HttpException) {
             // TODO In a real app we would handle different HTTP error codes differently
+            // There is little chance the app could recover from a rejected authentication request,
+            // but providing detailed logs could be useful in debugging the issue
             Timber.e(e, "Failed to get token ${e.message}")
             throw AuthException(
                 "Failed to refresh access token with code ${e.code()} ${e.message()}",
@@ -74,6 +80,19 @@ internal class AccessTokenProvider(
             Timber.e(e, "Failed to get token ${e.message}")
             throw UnexpectedException("Failed to refresh access token", e)
         }
+    }
+
+    /**
+     * Retrieve API secrets from secure storage
+     */
+    private fun retrieveSecrets(): Pair<String, String> {
+        val secrets = Secrets()
+        // Ideally we should get this from PackageManager
+        val packageName = "com.riverpath.petfinderdemo.auth"
+        val clientId = secrets.getclient_id(packageName)
+        val clientSecret = secrets.getclient_secret(packageName)
+        Timber.d("API credentials: clientID=${clientId}, clientSecret=$clientSecret")
+        return Pair(clientId, clientSecret)
     }
 }
 

@@ -8,6 +8,9 @@ import okhttp3.Response
 import okhttp3.Route
 import timber.log.Timber
 
+/**
+ * Authenticates OkHttp requests using the token from [tokenProvider]
+ */
 internal class PetfinderAuthenticator(
     private val tokenProvider: AccessTokenProvider,
 ) : Authenticator {
@@ -18,7 +21,7 @@ internal class PetfinderAuthenticator(
                 Timber.d("Authenticating the request ${response.request.url} with token $token")
                 return response.request
                     .newBuilder()
-                    .removeHeader("Bearer")
+                    .removeHeader("Authorization")
                     .addHeader("Authorization", "Bearer $token")
                     .build()
             } catch (e: Exception) {
@@ -26,11 +29,5 @@ internal class PetfinderAuthenticator(
                 return null
             }
         }
-    }
-}
-
-internal class AuthInterceptor : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        TODO("Not yet implemented")
     }
 }

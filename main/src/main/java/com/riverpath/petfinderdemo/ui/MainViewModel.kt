@@ -2,7 +2,7 @@ package com.riverpath.petfinderdemo.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.riverpath.petfinder.features.ServiceLocator
+import com.riverpath.petfinder.features.Features
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
@@ -25,7 +25,7 @@ class MainViewModel : ViewModel() {
 
     fun testAuth() {
         viewModelScope.launch {
-            ServiceLocator.petSearch.getAllAnimals()
+            Features.petSearch.getAllAnimals()
                 .onSuccess { animals -> ui.emit(ui.value.copy(results = animals.map { it.description })) }
                 .onFailure { ui.emit(ui.value.copy(searchTerm = it.message)) }
 

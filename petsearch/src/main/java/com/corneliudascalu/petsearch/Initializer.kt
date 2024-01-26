@@ -1,7 +1,6 @@
 package com.corneliudascalu.petsearch
 
-import com.riverpath.petfinder.features.PetSearch
-import com.riverpath.petfinder.features.ServiceLocator
+import com.riverpath.petfinder.features.Features
 import com.riverpath.petfinderdemo.common.Constants
 import com.riverpath.petfinderdemo.common.StartupInitializer
 import com.squareup.moshi.Moshi
@@ -11,10 +10,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 internal class Initializer : StartupInitializer() {
     override fun initialize() {
-        ServiceLocator.petSearch = PetFinder(
+        Features.petSearch = PetFinder(
             api = Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
-                .client(ServiceLocator.httpClientProvider.httpClient)
+                .client(Features.httpClientProvider.httpClient)
                 .addConverterFactory(
                     MoshiConverterFactory.create(
                         Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
