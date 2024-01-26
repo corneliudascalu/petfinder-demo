@@ -20,7 +20,8 @@ import timber.log.Timber
 class MainViewModel : ViewModel() {
     private val ui = MutableStateFlow<SearchUiState>(SearchUiState.Searching())
 
-    private val knownPetTypes = listOf("dog", "cat", "rabbit")
+    // The list of pet types can be prefetched and cached in memory or on local storage
+    private val knownPetTypes = listOf("dog", "cat", "rabbit", "bird")
 
     val uiState = ui.stateIn(
         scope = viewModelScope,
