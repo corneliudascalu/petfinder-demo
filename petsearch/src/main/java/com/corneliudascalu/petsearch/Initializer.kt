@@ -21,5 +21,6 @@ internal class Initializer : StartupInitializer() {
                 )
                 .build().create(PetSearchAPI::class.java)
         )
+        Features.petSearchScreen = PetSearchUi()
     }
 }

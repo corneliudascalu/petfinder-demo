@@ -1,4 +1,4 @@
-package com.riverpath.petfinderdemo.ui.ui.theme
+package com.riverpath.petfinderdemo.common.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.riverpath.petfinderdemo.ui.ui.theme
+package com.riverpath.petfinderdemo.common.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

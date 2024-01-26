@@ -1,4 +1,4 @@
-package com.riverpath.petfinderdemo.ui
+package com.corneliudascalu.petsearch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @OptIn(FlowPreview::class)
-class MainViewModel : ViewModel() {
+class PetSearchViewModel : ViewModel() {
     private val ui = MutableStateFlow<SearchUiState>(SearchUiState.Searching())
 
     // The list of pet types can be prefetched and cached in memory or on local storage

@@ -29,11 +29,13 @@ object Features {
         set(value) {
             _petSearch = value
         }
+    var petSearchScreen: PetSearchFeature = EmptyPetSearchScreen
 
     var petDetails: PetDetails
         get() = _petDetails
         set(value) {
             _petDetails = value
         }
+
 }
 
