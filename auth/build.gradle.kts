@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.retrofit.main)
     implementation(libs.retrofit.moshi)
+    implementation(libs.moshi)
     implementation(libs.okhttp.logging)
     implementation(libs.timber)
     testImplementation(libs.truth)

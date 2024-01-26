@@ -1,14 +1,17 @@
 package com.riverpath.petfinderdemo.auth.internal
 
 import com.squareup.moshi.Json
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
 internal interface AuthService {
-    @GET("/oauth2/token?grant_type=client_credentials")
+    @FormUrlEncoded
+    @POST("/v2/oauth2/token")
     suspend fun getToken(
-        @Query("client_id") clientID: String,
-        @Query("client_secret") clientSecret: String,
+        @Field("grant_type") grant_type: String = "client_credentials",
+        @Field("client_id") clientID: String,
+        @Field("client_secret") clientSecret: String,
     ): Token
 }
 

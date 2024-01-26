@@ -2,6 +2,10 @@ package com.riverpath.petfinderdemo.auth.internal
 
 import com.riverpath.petfinderdemo.auth.Secrets
 import com.riverpath.petfinderdemo.common.Constants
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -12,7 +16,17 @@ import java.time.LocalDateTime
 internal class AccessTokenProvider(
     private val api: AuthService = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
-        .addConverterFactory(MoshiConverterFactory.create())
+        .addConverterFactory(
+            MoshiConverterFactory.create(
+                Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            )
+        )
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor()
+                    .also { it.setLevel(HttpLoggingInterceptor.Level.BODY) })
+                .build()
+        )
         .build()
         .create(AuthService::class.java)
 ) {
@@ -38,14 +52,16 @@ internal class AccessTokenProvider(
             val clientSecret = secrets.getclient_secret(packageName)
             Timber.d("API credentials: clientID=${clientId}, clientSecret=$clientSecret")
 
-            val token = api.getToken(clientId, clientSecret)
+            val token = api.getToken(clientID = clientId, clientSecret = clientSecret)
+            Timber.d("Received new token $token")
+
             cachedToken = FleetingToken(
                 token = token.accessToken,
                 expirationDate = LocalDateTime.now().plusSeconds(token.expiresIn)
             )
             return token.accessToken
         } catch (e: HttpException) {
-            // TODO In a real app we would handle HTTP error codes differently
+            // TODO In a real app we would handle different HTTP error codes differently
             Timber.e(e, "Failed to get token ${e.message}")
             throw AuthException(
                 "Failed to refresh access token with code ${e.code()} ${e.message()}",

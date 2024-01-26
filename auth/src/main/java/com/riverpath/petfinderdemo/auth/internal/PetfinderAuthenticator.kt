@@ -1,7 +1,5 @@
 package com.riverpath.petfinderdemo.auth.internal
 
-import android.util.Log
-import com.riverpath.petfinderdemo.auth.internal.AccessTokenProvider
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Interceptor
@@ -14,13 +12,20 @@ internal class PetfinderAuthenticator(
     private val tokenProvider: AccessTokenProvider,
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
-        try {
-            val token = runBlocking { tokenProvider.getToken() }
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to provide authentication token")
-            return null
+        synchronized(this) {
+            try {
+                val token = runBlocking { tokenProvider.getToken() }
+                Timber.d("Authenticating the request ${response.request.url} with token $token")
+                return response.request
+                    .newBuilder()
+                    .removeHeader("Bearer")
+                    .addHeader("Authorization", "Bearer $token")
+                    .build()
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to provide authentication token")
+                return null
+            }
         }
-        return null
     }
 }
 
