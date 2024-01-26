@@ -1,4 +1,4 @@
-package com.riverpath.petfinderdemo.ui.ui.theme
+package com.riverpath.petfinderdemo.common.theme
 
 import androidx.compose.ui.graphics.Color
 

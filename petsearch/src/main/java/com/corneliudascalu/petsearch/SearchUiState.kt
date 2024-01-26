@@ -1,6 +1,7 @@
-package com.riverpath.petfinderdemo.ui
+package com.corneliudascalu.petsearch
 
 import com.riverpath.petfinder.pets.Animal
+
 sealed class SearchUiState(open val searchTerm: String? = null) {
     data class Loading(
         override val searchTerm: String? = null,
