@@ -21,8 +21,17 @@ android {
     }
 
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix = ".debug"
             isMinifyEnabled = false
+            isDebuggable = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+        release {
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -40,6 +49,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.8"
@@ -61,6 +71,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.google.material)
     implementation(libs.okhttp.client)
+    implementation(libs.timber)
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")

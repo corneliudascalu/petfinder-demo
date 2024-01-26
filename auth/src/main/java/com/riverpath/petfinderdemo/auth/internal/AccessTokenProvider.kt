@@ -1,14 +1,15 @@
 package com.riverpath.petfinderdemo.auth.internal
 
+import com.riverpath.petfinderdemo.auth.Secrets
 import com.riverpath.petfinderdemo.common.Constants
 import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import timber.log.Timber
 import java.io.IOException
 import java.time.LocalDateTime
 
 internal class AccessTokenProvider(
-    // TODO Provide API base URL from constants?
     private val api: AuthService = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
@@ -30,8 +31,14 @@ internal class AccessTokenProvider(
 
     private suspend fun refreshToken(): String {
         try {
-            // TODO Provide secrets
-            val token = api.getToken("asdasda", "asdasdasd")
+            val secrets = Secrets()
+            // Ideally we should get this from PackageManager
+            val packageName = "com.riverpath.petfinderdemo.auth"
+            val clientId = secrets.getclient_id(packageName)
+            val clientSecret = secrets.getclient_secret(packageName)
+            Timber.d("API credentials: clientID=${clientId}, clientSecret=$clientSecret")
+
+            val token = api.getToken(clientId, clientSecret)
             cachedToken = FleetingToken(
                 token = token.accessToken,
                 expirationDate = LocalDateTime.now().plusSeconds(token.expiresIn)
@@ -39,16 +46,16 @@ internal class AccessTokenProvider(
             return token.accessToken
         } catch (e: HttpException) {
             // TODO In a real app we would handle HTTP error codes differently
-            print("Failed to get token ${e.message}")
+            Timber.e(e, "Failed to get token ${e.message}")
             throw AuthException(
                 "Failed to refresh access token with code ${e.code()} ${e.message()}",
                 e
             )
         } catch (e: IOException) {
-            print("Failed to get token ${e.message}")
+            Timber.e(e, "Failed to get token ${e.message}")
             throw ClientException("Failed to refresh access token", e)
         } catch (e: Exception) {
-            print("Failed to get token ${e.message}")
+            Timber.e(e, "Failed to get token ${e.message}")
             throw UnexpectedException("Failed to refresh access token", e)
         }
     }

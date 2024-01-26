@@ -33,6 +33,7 @@ dependencyResolutionManagement {
             library("androidx-core", "androidx.core:core-ktx:1.12.0")
             library("androidx-appcompat", "androidx.appcompat:appcompat:1.6.1")
             library("google-material", "com.google.android.material:material:1.11.0")
+            library("timber","com.jakewharton.timber:timber:5.0.1")
 
             library("junit", "junit:junit:4.13.2")
             library("mockk", "io.mockk:mockk:1.13.9")

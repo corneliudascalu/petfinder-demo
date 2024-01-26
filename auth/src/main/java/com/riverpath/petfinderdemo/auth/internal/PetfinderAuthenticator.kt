@@ -8,6 +8,7 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import timber.log.Timber
 
 internal class PetfinderAuthenticator(
     private val tokenProvider: AccessTokenProvider,
@@ -16,7 +17,7 @@ internal class PetfinderAuthenticator(
         try {
             val token = runBlocking { tokenProvider.getToken() }
         } catch (e: Exception) {
-            Log.e("Authenticator", "${e.message}")
+            Timber.e(e, "Failed to provide authentication token")
             return null
         }
         return null
