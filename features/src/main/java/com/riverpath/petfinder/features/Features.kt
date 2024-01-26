@@ -8,7 +8,7 @@ package com.riverpath.petfinder.features
 object Features {
     private var _httpClientProvider: HttpClientProvider = EmptyHttpClientProvider
     private var _petSearch: PetSearch = EmptyPetSearch
-    private var _detailsTest: String = ""
+    private var _petDetails: PetDetails = EmptyPetDetails
 
     /**
      * The provider of the OkHttp client used throughout the application. It's assumed this client
@@ -30,10 +30,10 @@ object Features {
             _petSearch = value
         }
 
-    var detailsTest: String
-        get() = _detailsTest
+    var petDetails: PetDetails
+        get() = _petDetails
         set(value) {
-            _detailsTest = value
+            _petDetails = value
         }
 }
 

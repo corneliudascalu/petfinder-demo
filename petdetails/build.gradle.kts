@@ -32,6 +32,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":pets"))
     implementation(project(":features"))
 
     implementation(libs.androidx.core)
