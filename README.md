@@ -3,6 +3,18 @@
 ------
 > A humble demo of the Petfinder API used in a simple master-detail Android app.
 
+### Build
+- create an `api_key.properties` file in the `:auth` module, looking something like:
+   ```
+   client_id=<your_client_id>
+   client_secret=<your_client_secret>
+  ```  
+- don't commit this file to version control
+- run `./gradlew hideSecretFromPropertiesFile -PpropertiesFileName=./auth/api_key.properties 
+  -Ppackage=com.riverpath.petfinderdemo.auth` to generate the `Secrets.kt` file. More details 
+  can be found in the [plugin's github repo](https://github.com/klaxit/hidden-secrets-gradle-plugin)
+- the rest should be the usual stuff
+
 ### Run the unit tests with
 `gradle test`
 
