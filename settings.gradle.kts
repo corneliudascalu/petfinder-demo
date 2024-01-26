@@ -22,7 +22,7 @@ dependencyResolutionManagement {
                 "converter-moshi"
             ).versionRef("retrofit")
 
-            library("moshi","com.squareup.moshi:moshi-kotlin:1.15.0")
+            library("moshi", "com.squareup.moshi:moshi-kotlin:1.15.0")
 
             version("okhttp", "4.12.0")
             library("okhttp-client", "com.squareup.okhttp3", "okhttp").versionRef("okhttp")
@@ -32,10 +32,12 @@ dependencyResolutionManagement {
                 "logging-interceptor"
             ).versionRef("okhttp")
 
+            library("coil", "io.coil-kt:coil-compose:2.5.0")
+
             library("androidx-core", "androidx.core:core-ktx:1.12.0")
             library("androidx-appcompat", "androidx.appcompat:appcompat:1.6.1")
             library("google-material", "com.google.android.material:material:1.11.0")
-            library("timber","com.jakewharton.timber:timber:5.0.1")
+            library("timber", "com.jakewharton.timber:timber:5.0.1")
 
             library("junit", "junit:junit:4.13.2")
             library("mockk", "io.mockk:mockk:1.13.9")

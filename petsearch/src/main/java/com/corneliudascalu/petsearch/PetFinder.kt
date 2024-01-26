@@ -6,31 +6,58 @@ import retrofit2.HttpException
 
 internal class PetFinder(private val api: PetSearchAPI) : PetSearch {
     override suspend fun getAllAnimals(): Result<List<Animal>> {
-        try {
-            return Result.success(api.getAllAnimals().animals?.map {
-                Animal(
-                    id = it.id,
-                    name = it.name,
-                    description = it.description ?: "No Description",
-                    type = it.type,
-                    color = it.colors["primary"] ?: "transparent",
-                    age = it.age,
-                    gender = it.gender,
-                    breed = it.breeds.primary,
-                    size = it.size,
-                    thumbnailURL = it.photos.firstOrNull()?.get("small") ?: "",
-                    portraitURL = it.photos.firstOrNull()?.get("full") ?: "",
-                    status = it.status,
-                    distance = it.distance?.toInt()
-                )
-            } ?: emptyList())
+        return try {
+            Result.success(
+                api.getAllAnimals().animals?.map(animalMapper) ?: emptyList()
+            )
         } catch (e: HttpException) {
-            return Result.failure(PetFindException.ServerException(e.code(), e))
+            Result.failure(PetFindException.ServerException(e.code(), e))
         }
     }
 
     override suspend fun getAnimals(type: String): Result<List<Animal>> {
-        return Result.success(emptyList())
+        return try {
+            Result.success(
+                api.getAnimalsByType(type).animals?.map(animalMapper) ?: emptyList()
+            )
+        } catch (e: HttpException) {
+            Result.failure(PetFindException.ServerException(e.code(), e))
+        }
+    }
+
+    private val animalMapper: (AnimalDto) -> Animal = {
+        Animal(
+            id = it.id,
+            name = it.name,
+            description = it.description ?: "No Description",
+            type = it.type,
+            color = it.colors["primary"] ?: "transparent",
+            age = it.age,
+            gender = it.gender,
+            breed = it.breeds.primary,
+            size = it.size,
+            thumbnailURL = getFirstValidPhotoURL(it.photos),
+            portraitURL = getFirstValidFullPhotoURL(it.photos),
+            status = it.status,
+            distance = it.distance?.toInt()
+        )
+    }
+
+    private fun getFirstValidPhotoURL(photos: List<Map<String, String>>): String {
+        for (photo in photos) {
+            photo["small"]?.also { return it }
+            photo["medium"]?.also { return it }
+            photo["large"]?.also { return it }
+            photo["full"]?.also { return it }
+        }
+        return ""
+    }
+
+    private fun getFirstValidFullPhotoURL(photos: List<Map<String, String>>): String {
+        for (photo in photos) {
+            photo["full"]?.also { return it }
+        }
+        return ""
     }
 }
 

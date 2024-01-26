@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.okhttp.client)
     implementation(libs.timber)
+    implementation(libs.coil)
     implementation("androidx.annotation:annotation:1.7.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
