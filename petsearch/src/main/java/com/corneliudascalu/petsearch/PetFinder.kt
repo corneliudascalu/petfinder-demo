@@ -3,6 +3,7 @@ package com.corneliudascalu.petsearch
 import com.riverpath.petfinder.features.PetSearch
 import com.riverpath.petfinder.pets.Animal
 import retrofit2.HttpException
+import java.io.IOException
 
 internal class PetFinder(private val api: PetSearchAPI) : PetSearch {
     override suspend fun getAllAnimals(): Result<List<Animal>> {
@@ -25,6 +26,12 @@ internal class PetFinder(private val api: PetSearchAPI) : PetSearch {
             val errorBody = e.response()?.errorBody()?.string()
             // TODO Parse errorBody json into an intelligible error type
             Result.failure(PetFindException.ServerException(e.code(), errorBody ?: e.message(), e))
+        } catch (e: IOException) {
+            return if (e.message?.contains("unable to resolve host", true) == true) {
+                Result.failure(PetFindException.NoInternetException(e.cause))
+            } else {
+                Result.failure(PetFindException.ClientException(e.message, e.cause))
+            }
         }
     }
 
@@ -73,4 +80,12 @@ sealed class PetFindException(
         override val message: String? = null,
         override val cause: Throwable? = null
     ) : PetFindException()
+
+    class ClientException(
+        override val message: String? = null,
+        override val cause: Throwable? = null
+    ) : PetFindException()
+
+    class NoInternetException(cause: Throwable?) :
+        PetFindException(message = "No internet connection", cause = cause)
 }

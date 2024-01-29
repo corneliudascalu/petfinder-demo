@@ -5,6 +5,7 @@ import com.riverpath.petfinderdemo.common.StartupInitializer
 
 class InitContentProvider : StartupInitializer() {
     override fun initialize() {
-        Features.httpClientProvider = OkHttpClientProvider
+        Features.httpClientProvider =
+            OkHttpClientProvider.also { it.appContext = context?.applicationContext!! }
     }
 }
