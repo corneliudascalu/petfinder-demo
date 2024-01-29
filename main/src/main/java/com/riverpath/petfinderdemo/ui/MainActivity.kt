@@ -41,9 +41,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.riverpath.petfinder.features.Features
 import com.riverpath.petfinderdemo.R
 import com.riverpath.petfinderdemo.ui.ui.theme.PetfinderDemoTheme
 
@@ -54,14 +58,28 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val navController = rememberNavController()
+
             PetfinderDemoTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PetfinderUI(viewModel = viewModel) {
-                        // TODO Implement Compose Navigation
+                    NavHost(navController = navController, startDestination = "petList") {
+                        composable("petList") {
+                            // TODO Move the [PetfinderUI] composable to the [:petsearch] module too
+                            PetfinderUI(
+                                viewModel = viewModel,
+                                onOpenDetails = { id -> navController.navigate("petDetails/$id") })
+                        }
+                        composable("petDetails/{petID}") {
+
+                            // Let the app crash if we forget to pass the petID
+                            val petID = it.arguments?.getString("petID")!!
+                            Features.petDetails.PetDetailsUI(petID)
+                        }
+                        // Add more destinations similarly.
                     }
                 }
             }
